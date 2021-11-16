@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
-import { selectUser } from '../../features/auth/authSlice';
+import { Link, Outlet } from 'react-router-dom';
+import { selectUser } from '../auth/authSlice';
+import Payments from '../stripe_checkout/Payments';
 
 const LoginButton = ({ user }) => {
   switch (user) {
@@ -10,7 +11,10 @@ const LoginButton = ({ user }) => {
     case false:
       return <li><a href='/auth/google'>Login</a></li>;
     default:
-      return <li><a href='/api/logout'>Logout</a></li>;
+      return [
+        <li><Payments /></li>,
+        <li><a href='/api/logout'>Logout</a></li>,
+      ];
   }
 }
 
@@ -22,7 +26,7 @@ export default function Header(props) {
         <div className='row'>
           <div className='col s12'>
             <div className='nav-wrapper'>
-              <a href='/' className='left brand-logo'>Surveyist</a>
+              <Link className='left brand-logo' to={user ? '/surveys' : '/'}>Surveyist</Link>
               <ul className='right'>
                 <LoginButton user={user} />
               </ul>
