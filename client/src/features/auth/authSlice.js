@@ -12,11 +12,20 @@ const initialState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
+export const fetchUser = createAsyncThunk("user/fetch", async () => {
   const response = await axios.get("/api/user");
   // The value we return becomes the `fulfilled` action payload
   return response.data || false;
 });
+
+export const addUserCredits = createAsyncThunk(
+  "user/addCredits",
+  async (stripeToken) => {
+    const response = await axios.post("/api/credits", stripeToken);
+    // add credits api will return the updated user object
+    return response.data;
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -43,9 +52,16 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state) => {
-        state.status = "loading";
+        state.status = "loadingUser";
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.user = action.payload;
+      })
+      .addCase(addUserCredits.pending, (state) => {
+        state.status = "loadingCredits";
+      })
+      .addCase(addUserCredits.fulfilled, (state, action) => {
         state.status = "idle";
         state.user = action.payload;
       });

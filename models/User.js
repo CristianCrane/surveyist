@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    googleId: String
+  googleId: String,
+  credits: { type: Number, default: 0 },
 });
 
 // create a mongoose class
-mongoose.model('users', userSchema);
+mongoose.model("users", userSchema);
