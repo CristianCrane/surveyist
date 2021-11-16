@@ -24,6 +24,17 @@ app.use(express.json());
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 
+if (process.env.NODE_ENV === "production") {
+  // check if req is asking for some static asset
+  app.use(express.static("client/build"));
+
+  // otherwise just serve index.html and let react routing handle the route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 // example route handler in express
 app.get("/", (req, res) => {
   res.send({ hi: "there!!" });
