@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const keys = require("./config/keys");
 require("./models/User");
+require("./models/Survey");
 require("./services/authService");
 
 mongoose.connect(keys.mongoUri);
@@ -23,6 +24,7 @@ app.use(express.json());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
+require("./routes/surveyRoutes")(app);
 
 if (process.env.NODE_ENV === "production") {
   // check if req is asking for some static asset
@@ -34,11 +36,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
-// example route handler in express
-app.get("/", (req, res) => {
-  res.send({ hi: "there!!" });
-});
 
 const PORT = process.env.PORT || 5000; // heroku will populate the port dynamically
 app.listen(PORT);
