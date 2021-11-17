@@ -26,5 +26,16 @@ require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
 require("./routes/surveyRoutes")(app);
 
+if (process.env.NODE_ENV === "production") {
+  // check if req is asking for some static asset
+  app.use(express.static("client/build"));
+
+  // otherwise just serve index.html and let react routing handle the route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const PORT = process.env.PORT || 5000; // heroku will populate the port dynamically
 app.listen(PORT);
