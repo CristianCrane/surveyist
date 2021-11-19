@@ -17,6 +17,7 @@
   "author": "Cristian Crane",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.6.0",
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
