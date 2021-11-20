@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { selectUser } from "../auth/authSlice";
+import { createSurvey, selectUser } from "../auth/authSlice";
 import Payments from "../stripe_checkout/Payments";
 import PropTypes from "prop-types";
 
@@ -35,6 +35,7 @@ MenuItems.propTypes = {
 };
 
 export default function Header() {
+  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   return (
     <>
@@ -46,6 +47,7 @@ export default function Header() {
                 Surveyist
               </Link>
               <ul className="right">
+                <li onClick={() => dispatch(createSurvey())}>test!</li>
                 <MenuItems user={user} />
               </ul>
             </div>

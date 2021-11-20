@@ -27,6 +27,16 @@ export const addUserCredits = createAsyncThunk(
   }
 );
 
+export const createSurvey = createAsyncThunk("user/createSurvey", async () => {
+  const response = await axios.post("/api/surveys", {
+    subject: "subject from frontend",
+    title: "title from frontend",
+    body: "body from frontend",
+    recipients: "cristiandcrane@gmail.com,campaigns.surveyist@gmail.com",
+  });
+  return response.data;
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -62,6 +72,13 @@ export const authSlice = createSlice({
         state.status = "loadingCredits";
       })
       .addCase(addUserCredits.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.user = action.payload;
+      })
+      .addCase(createSurvey.pending, (state) => {
+        state.status = "creatingSurvey";
+      })
+      .addCase(createSurvey.fulfilled, (state, action) => {
         state.status = "idle";
         state.user = action.payload;
       });

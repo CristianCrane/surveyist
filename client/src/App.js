@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./features/header/Header";
 import { fetchUser } from "./features/auth/authSlice";
+import Thanks from "./features/thanks/Thanks";
 
 const Dashboard = () => <h2>Dashboard</h2>;
 const SurveyNew = () => <h2>SurveyNew</h2>;
@@ -23,6 +24,7 @@ function App() {
             <Route index element={<Landing />} />
             <Route path="/surveys" element={<Dashboard />} />
             <Route path="/surveys/new" element={<SurveyNew />} />
+            <Route path="/thanks" element={<Thanks />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
