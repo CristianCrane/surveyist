@@ -1,60 +1,69 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
-import { createSurvey, selectUser } from "../auth/authSlice";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { selectUser } from "../auth/authSlice";
 import Payments from "../stripe_checkout/Payments";
-import PropTypes from "prop-types";
 
-const MenuItems = ({ user }) => {
-  switch (user) {
-    case null:
-      return "";
-    case false:
-      return (
-        <li>
-          <a href="/auth/google">Login</a>
-        </li>
-      );
-    default:
-      return [
-        <li key={1}>
-          <Payments />
-        </li>,
-        <li key={3} style={{ margin: "0 10px" }}>
-          Credits: {user.credits}
-        </li>,
-        <li key={2}>
-          <a href="/api/logout">Logout</a>
-        </li>,
-      ];
-  }
-};
-
-MenuItems.propTypes = {
-  user: PropTypes.object,
-};
-
-export default function Header() {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
+const Header = () => {
   return (
-    <>
-      <nav>
-        <div className="row">
-          <div className="col s12">
-            <div className="nav-wrapper">
-              <Link className="left brand-logo" to={user ? "/surveys" : "/"}>
-                Surveyist
-              </Link>
-              <ul className="right">
-                <li onClick={() => dispatch(createSurvey())}>test!</li>
-                <MenuItems user={user} />
-              </ul>
-            </div>
+    <nav className="navbar" role="navigation" aria-label="main navigation">
+      <Logo />
+      <MenuItems />
+    </nav>
+  );
+};
+
+const Logo = () => {
+  const user = useSelector(selectUser);
+
+  return (
+    <div className="navbar-brand">
+      <Link className="navbar-item" to={user ? "/surveys" : "/"}>
+        <img src="/surveyist-logo.png" width="150" height="35" />
+      </Link>
+      <a
+        role="button"
+        className="navbar-burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navbarBasicExample"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  );
+};
+
+const MenuItems = () => {
+  const user = useSelector(selectUser);
+
+  if (user === null) {
+    return ""; // user not loaded yet
+  }
+
+  return (
+    <div id="navbarBasicExample" className="navbar-menu">
+      <div className="navbar-end">
+        <div className="navbar-item">
+          <div className="buttons">
+            {user && <Payments />}
+            {user && (
+              <a href="/api/logout" className="button">
+                Logout
+              </a>
+            )}
+            {!user && (
+              <a href="/auth/google" className="button">
+                Login
+              </a>
+            )}
           </div>
         </div>
-      </nav>
-      <Outlet />
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default Header;

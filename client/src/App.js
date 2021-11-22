@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./features/header/Header";
 import { fetchUser } from "./features/auth/authSlice";
 import Thanks from "./features/thanks/Thanks";
+import CoreLayout from "./components/CoreLayout";
 
 const Dashboard = () => <h2>Dashboard</h2>;
 const SurveyNew = () => <h2>SurveyNew</h2>;
@@ -17,19 +17,17 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="container">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Header />}>
-            <Route index element={<Landing />} />
-            <Route path="/surveys" element={<Dashboard />} />
-            <Route path="/surveys/new" element={<SurveyNew />} />
-            <Route path="/thanks" element={<Thanks />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<CoreLayout />}>
+          <Route index element={<Landing />} />
+          <Route path="/surveys" element={<Dashboard />} />
+          <Route path="/surveys/new" element={<SurveyNew />} />
+          <Route path="/thanks" element={<Thanks />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
