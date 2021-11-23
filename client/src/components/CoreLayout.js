@@ -1,12 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../features/header/Header";
+import Footer from "./Footer";
+import Header from "./Header";
 
 export default function CoreLayout() {
   return (
     <div className="container">
       <Header />
       <Outlet />
+      <Footer />
     </div>
   );
 }

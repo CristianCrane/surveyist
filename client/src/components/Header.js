@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectUser } from "../auth/authSlice";
-import Payments from "../stripe_checkout/Payments";
+import { selectUser } from "../features/auth/authSlice";
+import Payments from "../features/stripe_checkout/Payments";
 
 const Header = () => {
   return (
