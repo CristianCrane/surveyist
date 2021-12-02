@@ -2,6 +2,8 @@ import React from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import Input from "./forms/Input";
+import TextArea from "./forms/TextArea";
+import SubmitButton from "./forms/SubmitButton";
 
 export default function Footer() {
   return (
@@ -65,12 +67,14 @@ const ContactForm = () => {
         initialValues={{
           fullName: "",
           email: "",
+          message: "",
         }}
         validationSchema={Yup.object({
           fullName: Yup.string().required("Required"),
           email: Yup.string()
             .email("Invalid email address")
             .required("Required"),
+          message: Yup.string().required("Required"),
         })}
         onSubmit={(values, { setSubmitting }) => {
           alert(JSON.stringify(values, null, 2));
@@ -92,7 +96,8 @@ const ContactForm = () => {
             leftIcon={<i className="fas fa-envelope"></i>}
             size="small"
           />
-          <button type="submit">Submit</button>
+          <TextArea label="Message" name="message" />
+          <SubmitButton />
         </Form>
       </Formik>
     </section>

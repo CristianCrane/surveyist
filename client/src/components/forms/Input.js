@@ -8,7 +8,11 @@ export default function Input({ label, leftIcon, rightIcon, ...props }) {
 
   return (
     <div className="field">
-      {label && <label className="label">{label}</label>}
+      {label && (
+        <label htmlFor={props.name || props.id} className="label">
+          {label}
+        </label>
+      )}
       <div
         className={classnames({
           control: true,
@@ -37,6 +41,7 @@ export default function Input({ label, leftIcon, rightIcon, ...props }) {
 }
 
 Input.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   type: PropTypes.string,
