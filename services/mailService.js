@@ -7,20 +7,20 @@ function sendMail(survey) {
     to: survey.recipients.map((r) => r.email),
     from: "cristiandcrane@gmail.com",
     subject: survey.subject,
-    html: buildHtml(survey.title, survey.body),
+    html: buildHtml(survey),
   };
 
   return sgmail.sendMultiple(msg);
 }
 
-function buildHtml(title, body) {
+function buildHtml(survey) {
   return `
     <html>
       <body style="text-align: center;">
-        <h2>${title}</h2>
-        <p>${body}</p>
-        <a href="${keys.redirectDomain}/thanks">Yes</a>
-        <a href="${keys.redirectDomain}/thanks">No</a>
+        <h2>${survey.title}</h2>
+        <p>${survey.body}</p>
+        <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes">Yes</a>
+        <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
       </body>
     </html>
   `;
